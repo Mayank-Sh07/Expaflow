@@ -1,4 +1,13 @@
 import React from "react";
+import {
+  ListItem,
+  ListItemAvatar,
+  Avatar,
+  ListItemText,
+  Divider,
+} from "@material-ui/core";
+import {v4 as uuid} from "uuid"
+import { Grain } from "@material-ui/icons";
 
 // const data = [
 //   { debitor: "Mayank", creditor: "Jigyasa", amount: 2000 },
@@ -9,7 +18,7 @@ import React from "react";
 // ];
 
 export default function Optimizer({ data }) {
-  const [state, setState] = React.useState(() => {
+  const outputGenerator = () => {
     const actors = [
       ...new Set([
         ...[...new Set(data.map((item) => item.creditor))],
@@ -42,14 +51,10 @@ export default function Optimizer({ data }) {
         amounts[row] += transMatrix[col][row] - transMatrix[row][col];
       })
     );
-    return {
-      actors,
-      size,
-      transMatrix,
-      actorMap,
-      amounts,
-    };
-  });
+    return {actorMap,amounts};
+  };
+
+  const {actorMap,amounts} = outputGenerator()
 
   const getMinMax = (amounts) => ({
     minIndx: amounts.indexOf(Math.min(...amounts)),
@@ -59,7 +64,7 @@ export default function Optimizer({ data }) {
   const minCashFlow = (amounts) => {
     const { minIndx, maxIndx } = getMinMax(amounts);
     if (amounts[minIndx] === 0 && amounts[maxIndx] === 0) {
-      return <h3>ENDED</h3>;
+      return null;
     }
 
     let minAmount = Math.min(
@@ -70,18 +75,24 @@ export default function Optimizer({ data }) {
     amounts[maxIndx] -= minAmount;
     amounts[minIndx] += minAmount;
 
-    console.log(amounts);
     return (
       <>
-        <p>
-          {state.actorMap[minIndx]} should pay {minAmount} to{" "}
-          {state.actorMap[maxIndx]}
-        </p>
-        <div>{minCashFlow(amounts)}</div>
+      <ListItem key={uuid()}>
+        <ListItemAvatar>
+          <Avatar>
+            <Grain/>
+          </Avatar>
+        </ListItemAvatar>
+        <ListItemText 
+        primary={`
+          ${actorMap[minIndx]} should pay ₹${minAmount} to ${actorMap[maxIndx]}
+        `}/>
+      </ListItem>
+      <Divider variant="middle"/>
+      {minCashFlow(amounts)}
       </>
     );
   };
 
-  console.log(state);
-  return <div>{minCashFlow(state.amounts)}</div>;
+  return <>{minCashFlow(amounts)}</>;
 }

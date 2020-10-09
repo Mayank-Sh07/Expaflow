@@ -124,7 +124,7 @@ export default function NavLinks(props) {
               : Firebase.doSignInWithGoogle();
           }}
         >
-          {!!currentTheme ? "Login" : "Logout"}
+          {!!currentTheme ? "Logout" : "Login"}
         </Button>
       </ListItem>
     </List>

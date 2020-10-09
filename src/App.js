@@ -18,7 +18,7 @@ export default function App() {
             rightLinks={<NavLinks />}
             fixed
             changeColorOnScroll={{
-              height: 440,
+              height: 200,
               color: "black",
             }}
           />
