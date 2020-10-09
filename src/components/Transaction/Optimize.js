@@ -6,10 +6,13 @@ import {
   Typography,
   Paper,
   TextField,
+  Container,
+  Button
 } from "@material-ui/core";
 import Parallax from "../Parallax/Parallax.js";
 import { UserContext } from "../Firebase/UserContextProvider.js";
 import { useForm } from "react-hook-form";
+import { RupeeIcon } from "../Icons/index.js";
 
 const useStyles = makeStyles((theme) => ({
   grid: {
@@ -21,13 +24,11 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
     width: "100%",
     minHeight: "1px",
-    paddingRight: "15px",
-    paddingLeft: "15px",
+    
     flexBasis: "auto",
   },
   container: {
     zIndex: "12",
-    color: "#FFFFFF",
     paddingRight: "15px",
     paddingLeft: "15px",
     marginRight: "auto",
@@ -59,6 +60,15 @@ const useStyles = makeStyles((theme) => ({
     minHeight: "32px",
     textShadow: "-2px 1px 4px rgba(150, 149, 150, 1)",
   },
+  subtitle: {
+    color: "#ffffff",
+    textDecoration: "none",
+    fontWeight: "300",
+    fontFamily: `"Roboto", "Times New Roman", serif`,
+    display: "inline-block",
+    position: "relative",
+    textShadow: "-2px 1px 2px rgba(150, 149, 150, 1)",
+  },
   main: {
     position: "relative",
     zIndex: "3",
@@ -67,6 +77,20 @@ const useStyles = makeStyles((theme) => ({
     margin: "-60px 20px 0px",
     borderRadius: "6px",
   },
+  gridItemCustom: {
+    display:"flex",
+     alignItems:"center",
+     paddingLeft:"3px",
+     paddingRight:"3px"
+  },
+  paddingHorizontal : {
+    paddingRight:"10px"
+  },
+  formCustom:{
+      border: "2px dashed black",
+      borderRadius: "1em",
+      padding: "25px 15px",
+  }
 }));
 
 export default function Home(props) {
@@ -91,65 +115,73 @@ export default function Home(props) {
               <Typography variant='h1' className={classes.title}>
                 Expaflow Optimzer
               </Typography>
-              <Typography variant='h4'>Settle debts, fast and easy!</Typography>
+              <Typography variant='h4' className={classes.subtitle}>Settle debts, fast and easy!</Typography>
             </Grid>
           </Grid>
           <br />
         </div>
       </Parallax>
       <Paper className={classNames(classes.main, classes.mainRaised)}>
-        <div className={classes.container}>
+        <Container >
+          <br/>
           <form
             noValidate
             onSubmit={handleSubmit((data) => handleSubmittedDetails(data))}
+            className= {classes.formCustom}
           >
             <Grid container alignItems='center' justify='center'>
-              <Grid item xs={12} sm={3}>
+              <Grid item xs={12} sm={4}
+              className={classes.gridItemCustom}
+              >
                 <TextField
                   id='debitor-name-inp'
                   name='debitor'
                   label='Payer Name'
                   inputProps={{ maxLength: 50 }}
-                  helperText='Name of the debitor'
+                  helperText='debitor name'
                   type='text'
                   inputRef={register}
                   autoComplete='off'
-                  InputLabelProps={{ shrink: true }}
                   fullWidth
                 />
-                <Typography variant='h6'>Owes</Typography>
-              </Grid>
-              <Grid item xs={12} sm={3}>
+              </Grid>              
+              <Grid item xs={12} sm={4} 
+              className={classes.gridItemCustom}
+              >
+              <Typography variant='h6' className={classes.paddingHorizontal}>owes</Typography>
                 <TextField
-                  id='debitor-name-inp'
+                  id='creditor-name-inp'
                   name='debitor'
                   label='Payee Name'
                   inputProps={{ maxLength: 50 }}
-                  helperText='Name of person who owes money'
+                  helperText='creditor name'
                   type='text'
                   inputRef={register}
                   autoComplete='off'
-                  InputLabelProps={{ shrink: true }}
                   fullWidth
                 />
               </Grid>
-              <Grid item xs={12} sm={3}>
+              <Grid item xs={12} sm={4} 
+              className={classes.gridItemCustom}
+              >
+                <RupeeIcon width="22" className={classes.paddingHorizontal}/>
                 <TextField
                   id='debitor-name-inp'
-                  name='debitor'
-                  label='Payee Name'
-                  inputProps={{ maxLength: 50 }}
-                  helperText='Name of person who owes money'
-                  type='text'
+                  name='amount'
+                  label='Amount'
+                  helperText='Enter debit amount'
+                  type='number'
                   inputRef={register}
                   autoComplete='off'
                   fullWidth
-                  InputLabelProps={{ shrink: true }}
                 />
+              </Grid>
+              <Grid item xs={12}>
+                <Button variant="contained" ></Button>
               </Grid>
             </Grid>
           </form>
-        </div>
+        </Container>
       </Paper>
     </>
   );
