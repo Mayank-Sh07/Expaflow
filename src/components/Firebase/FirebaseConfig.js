@@ -27,9 +27,7 @@ class Firebase {
   doSignInWithGoogle = () =>
     this.auth.signInWithPopup(this.googleProvider).then((authUser) => {
       console.log(authUser);
-      if (!String(authUser.user.email).endsWith("@vitstudent.ac.in")) {
-        this.auth.currentUser.delete().then(() => {});
-      } else if (authUser.additionalUserInfo.isNewUser) {
+      if (authUser.additionalUserInfo.isNewUser) {
         const userData = {
           createdAt: new Date(),
           userPosts: [],
