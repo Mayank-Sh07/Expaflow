@@ -1,11 +1,19 @@
 import React from "react";
 import { CustomThemeContext } from "../../Theme/CustomThemeProvider";
-import { makeStyles, List, ListItem, Button } from "@material-ui/core";
+import {
+  makeStyles,
+  List,
+  ListItem,
+  Button,
+  IconButton,
+} from "@material-ui/core";
 import {
   Home,
   Grain,
   Brightness4Rounded,
   Brightness7Rounded,
+  LinkedIn,
+  GitHub,
 } from "@material-ui/icons";
 import { UserContext } from "../Firebase/UserContextProvider";
 import { LogoutIcon, ProfileIcon } from "../Icons";
@@ -126,6 +134,57 @@ export default function NavLinks(props) {
         >
           {!!currentTheme ? "Logout" : "Login"}
         </Button>
+      </ListItem>
+      <ListItem className={classes.listItem}>
+        <a
+          href='https://github.com/Mayank-Sh07/Expaflow'
+          target='_blank'
+          rel='noopener noreferrer'
+        >
+          <IconButton
+            className={classes.navLink}
+            size='small'
+            style={{
+              color: "#FFFFFF",
+            }}
+          >
+            <GitHub />
+          </IconButton>
+        </a>
+      </ListItem>
+      <ListItem className={classes.listItem}>
+        <a
+          href='https://www.linkedin.com/in/mayanksh07'
+          target='_blank'
+          rel='noopener noreferrer'
+        >
+          <IconButton
+            className={classes.navLink}
+            size='small'
+            style={{
+              color: "#B4CEFF",
+            }}
+          >
+            <LinkedIn />
+          </IconButton>
+        </a>
+      </ListItem>
+      <ListItem className={classes.listItem}>
+        <a
+          href='https://www.linkedin.com/in/jigyasa-sa'
+          target='_blank'
+          rel='noopener noreferrer'
+        >
+          <IconButton
+            className={classes.navLink}
+            size='small'
+            style={{
+              color: "#FFC0B4",
+            }}
+          >
+            <LinkedIn />
+          </IconButton>
+        </a>
       </ListItem>
     </List>
   );

@@ -17,7 +17,6 @@ const UserContextProvider = ({ children }) => {
           photoURL: user.photoURL,
           email: user.email,
           name: user.displayName,
-
           userDoc: Firebase.firestore().collection("users").doc(user.uid),
         };
         setCurrentUser(userDetails);

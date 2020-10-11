@@ -30,8 +30,7 @@ class Firebase {
       if (authUser.additionalUserInfo.isNewUser) {
         const userData = {
           createdAt: new Date(),
-          userPosts: [],
-          userBlogPosts: [],
+          userTransactions: [],
         };
         this.firestore()
           .collection("users")

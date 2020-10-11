@@ -6,18 +6,11 @@ import {
   ListItemText,
   Divider,
 } from "@material-ui/core";
-import {v4 as uuid} from "uuid"
+import { v4 as uuid } from "uuid";
 import { Grain } from "@material-ui/icons";
 
-// const data = [
-//   { debitor: "Mayank", creditor: "Jigyasa", amount: 2000 },
-//   { debitor: "Gautham", creditor: "Jigyasa", amount: 4000 },
-//   { debitor: "Jigyasa", creditor: "Rohit", amount: 6000 },
-//   { debitor: "Rohit", creditor: "Jigyasa", amount: 2000 },
-//   { debitor: "Rohit", creditor: "Gautham", amount: 4000 },
-// ];
-
 export default function Optimizer({ data }) {
+  const transactions = [];
   const outputGenerator = () => {
     const actors = [
       ...new Set([
@@ -35,7 +28,7 @@ export default function Optimizer({ data }) {
         if (transaction.debitor === actor) {
           transMatrix[actors.indexOf(actor)][
             actors.indexOf(transaction.creditor)
-          ] = transaction.amount;
+          ] += Number(transaction.amount);
         }
       });
     });
@@ -48,13 +41,14 @@ export default function Optimizer({ data }) {
     const amounts = Array(size).fill(0);
     amounts.forEach((val, row) =>
       amounts.forEach((val, col) => {
-        amounts[row] += transMatrix[col][row] - transMatrix[row][col];
+        amounts[row] +=
+          Number(transMatrix[col][row]) - Number(transMatrix[row][col]);
       })
     );
-    return {actorMap,amounts};
+    return { actorMap, amounts };
   };
 
-  const {actorMap,amounts} = outputGenerator()
+  const { actorMap, amounts } = outputGenerator();
 
   const getMinMax = (amounts) => ({
     minIndx: amounts.indexOf(Math.min(...amounts)),
@@ -64,7 +58,7 @@ export default function Optimizer({ data }) {
   const minCashFlow = (amounts) => {
     const { minIndx, maxIndx } = getMinMax(amounts);
     if (amounts[minIndx] === 0 && amounts[maxIndx] === 0) {
-      return null;
+      return transactions;
     }
 
     let minAmount = Math.min(
@@ -75,23 +69,25 @@ export default function Optimizer({ data }) {
     amounts[maxIndx] -= minAmount;
     amounts[minIndx] += minAmount;
 
-    return (
+    transactions.push(
       <>
-      <ListItem key={uuid()}>
-        <ListItemAvatar>
-          <Avatar>
-            <Grain/>
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText 
-        primary={`
+        <ListItem key={uuid()}>
+          <ListItemAvatar>
+            <Avatar>
+              <Grain />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText
+            primary={`
           ${actorMap[minIndx]} should pay ₹${minAmount} to ${actorMap[maxIndx]}
-        `}/>
-      </ListItem>
-      <Divider variant="middle"/>
-      {minCashFlow(amounts)}
+        `}
+          />
+        </ListItem>
+        <Divider variant='middle' />
       </>
     );
+
+    return <>{minCashFlow(amounts)}</>;
   };
 
   return <>{minCashFlow(amounts)}</>;
